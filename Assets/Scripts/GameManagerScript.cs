@@ -1,24 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManagerScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public GameObject gameOverUI;
-    void Start()
+    public GameObject gameOverUI; // Referencia al Canvas que contiene el menú de Game Over
+
+    // Método para reanudar el juego
+    public void ResumeGame()
     {
-        
+        // Reanudar el tiempo del juego
+        Time.timeScale = 50f;
+
+        // Desactivar el menú de Game Over
+        gameOverUI.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+     public void gameOver()
     {
-        
-    }
 
-    public void gameOver()
-    {
+        // Desactivar el menú de Game Over
         gameOverUI.SetActive(true);
     }
+     public void restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }
+

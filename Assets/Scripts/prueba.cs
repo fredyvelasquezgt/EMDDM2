@@ -1,11 +1,10 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class prueba : MonoBehaviour
 {
     public float speed = 2f; // Velocidad de movimiento del obstáculo
-    public GameManagerScript gameManager; // encargado de que funcione el menu
-    private bool isDead; //para saber si murio y activar menu
+    public GameObject gameOverUI; // Canvas que contiene el menú de Game Over
+    private bool isDead; // Para saber si murió y activar el menú
     public string playerTag = "Player"; // Etiqueta del jugador
     private Vector3 startPosition; // Posición inicial del objeto
 
@@ -18,6 +17,9 @@ public class prueba : MonoBehaviour
     {
         // Guardar la posición inicial del objeto
         startPosition = transform.position;
+        
+        // Desactivar el canvas de Game Over al inicio
+        gameOverUI.SetActive(false);
     }
 
     void Update()
@@ -53,12 +55,16 @@ public class prueba : MonoBehaviour
     // Detectar colisión con el jugador
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(playerTag) &&  !isDead)
+        if (other.CompareTag(playerTag) && !isDead)
         {
-            // Cargar el nivel 1
+            // Marcar que el jugador está muerto
             isDead = true;
-            gameManager.gameOver();
-            SceneManager.LoadScene("Level2");
+
+            // Activar el canvas de Game Over
+            gameOverUI.SetActive(true);
+            
+            // Pausar el juego
+            Time.timeScale = 0f;
         }
     }
 }
